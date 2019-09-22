@@ -23,5 +23,6 @@ function displayItems() {
         }
     );
 }
-
+// for inventory check, create variable that stores item_id -1 as index of res
+// then compare res[i].stock (may have to convert to number) to user request
 displayItems();
