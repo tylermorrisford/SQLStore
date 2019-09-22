@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
 function displayItems() {
     console.log('Welcome to Bamazon, home of the best deals in the known universe!')
     var query = connection.query(
-        "SELECT item_id, item, price FROM products",
+        "SELECT * FROM products",
         function(err, res) {
             if (err) throw err;
             for (var i=0; i<res.length; i++) {
