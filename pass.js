@@ -1,0 +1,1 @@
+// use with dot env to hold pass key for mysql local host
