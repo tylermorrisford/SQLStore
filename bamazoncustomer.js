@@ -53,7 +53,7 @@ function displayItems() {
             },
 
       )}),
-    //   none of this is happening
+    //   this is not happening but it is duplicating; need to pull prompts out of first function(?)
     
           inquire.prompt([
               {
