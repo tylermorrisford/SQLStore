@@ -1,7 +1,6 @@
 require('dotenv').config();
 var mysql = require("mysql");
 var inquire = require("inquirer");
-var res = " ";
 // 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -53,14 +52,14 @@ function displayItems() {
                 
             },
 
-      )})
+      )}),
     //   none of this is happening
-      ,
+    
           inquire.prompt([
               {
               type: 'input',
               message: "How many would you like?",
-              answer: "quantity"
+              name: "quantity"
           }
           ]).then(answer => {
               console.log("Hold on a moment while I check our stock");
