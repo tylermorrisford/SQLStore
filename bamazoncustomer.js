@@ -27,17 +27,6 @@ function displayItems() {
             type: 'input',
             name: 'productChoice',
             message: "Please enter the id # of the item you would like to purchase:",
-        //     choices: ["t-shirt", 
-        //     "jeans / id 1", 
-        //     "jacket", 
-        //     "running shoes", 
-        //     "hiking shoes", 
-        //     "boots", 
-        //     "toothbrush", 
-        //     "deodorant",
-        //     "shampoo",
-        //     "conditioner" 
-        // ]
     },
     {
         type: 'number',
@@ -47,13 +36,14 @@ function displayItems() {
       ])
       .then(answer => {
         var userSelection = answer.productChoice;
+        var reqAmount = answer.quantity;
         connection.query(
             "SELECT * FROM products WHERE ?",
             { item_id: userSelection },
             function(err, res) {
                 if (err) throw err;
                 // console.log("Great choice, the " + answer.productChoice);
-                console.log("Great choice, the " + res[0].item) = "!";
+                console.log("Great choice, the " + res[0].item) + "!";
                 
             },
 
