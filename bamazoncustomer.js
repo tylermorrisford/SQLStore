@@ -39,11 +39,16 @@ function displayItems() {
         //     "conditioner" 
         // ]
     },
+    {
+        type: 'number',
+        message: "How many would you like?",
+        name: "quantity"
+    }
       ])
       .then(answer => {
         var userSelection = answer.productChoice;
         connection.query(
-            "SELECT item FROM products WHERE ?",
+            "SELECT * FROM products WHERE ?",
             { item_id: userSelection },
             function(err, res) {
                 if (err) throw err;
@@ -55,17 +60,17 @@ function displayItems() {
       )}),
     //   this is not happening but it is duplicating; need to pull prompts out of first function(?)
     
-          inquire.prompt([
-              {
-              type: 'input',
-              message: "How many would you like?",
-              name: "quantity"
-          }
-          ]).then(answer => {
-              console.log("Hold on a moment while I check our stock");
-              console.log(res[0].item);
-              console.log(answer.quantity);
-          })
+        //   inquire.prompt([
+        //       {
+        //       type: 'input',
+        //       message: "How many would you like?",
+        //       name: "quantity"
+        //   }
+        //   ]).then(answer => {
+        //       console.log("Hold on a moment while I check our stock");
+        //       console.log(res[0].item);
+        //       console.log(answer.quantity);
+        //   })
       
       )}
 
