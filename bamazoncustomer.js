@@ -53,7 +53,9 @@ function displayItems() {
                 
             },
 
-      )}),
+      )})
+    //   none of this is happening
+      ,
           inquire.prompt([
               {
               type: 'input',
