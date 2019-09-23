@@ -43,9 +43,12 @@ function displayItems() {
             function(err, res) {
                 if (err) throw err;
                 // console.log("Great choice, the " + answer.productChoice);
-                console.log('\x1b[36m%s\x1b[0m', "The " + res[0].item + ", great choice! \nHold on a moment while I check our stock to see if we have " + reqAmount + " available...");
+                console.log('\x1b[36m%s\x1b[0m', "The " + res[0].item + ", great choice! \nOne moment while I check to see if we have " + reqAmount + " available...");
                 if (res[0].stock >= reqAmount) {
-                    processOrder()
+                    console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed.")
+                    // processOrder()
+                } else {
+                    console.log('\x1b[35m%s\x1b[0m', "So sorry; we're not able to process your order. Perhaps you'd like to try Walmart?")
                 }
                 // if item is in stock, run processOrder(); else log "sorry"
             },
