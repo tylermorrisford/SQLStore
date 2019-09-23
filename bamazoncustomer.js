@@ -43,8 +43,9 @@ function displayItems() {
             function(err, res) {
                 if (err) throw err;
                 // console.log("Great choice, the " + answer.productChoice);
-                console.log("Great choice, the " + res[0].item) + "!";
-                
+                console.log("The " + res[0].item + ", great choice! Hold on a moment while I check our stock");
+                // write query here that checks stock
+                // if item is in stock, run processOrder(); else log "sorry"
             },
 
       )}),
