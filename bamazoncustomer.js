@@ -43,27 +43,20 @@ function displayItems() {
             function(err, res) {
                 if (err) throw err;
                 // console.log("Great choice, the " + answer.productChoice);
-                console.log("The " + res[0].item + ", great choice! Hold on a moment while I check our stock");
-                // write query here that checks stock
+                console.log('\x1b[36m%s\x1b[0m', "The " + res[0].item + ", great choice! \nHold on a moment while I check our stock to see if we have " + reqAmount + " available...");
+                if (res[0].stock >= reqAmount) {
+                    processOrder()
+                }
                 // if item is in stock, run processOrder(); else log "sorry"
             },
 
       )}),
-    //   this is not happening but it is duplicating; need to pull prompts out of first function(?)
-    
-        //   inquire.prompt([
-        //       {
-        //       type: 'input',
-        //       message: "How many would you like?",
-        //       name: "quantity"
-        //   }
-        //   ]).then(answer => {
-        //       console.log("Hold on a moment while I check our stock");
-        //       console.log(res[0].item);
-        //       console.log(answer.quantity);
-        //   })
       
       )}
+
+function processOrder() {
+
+}
 
 // for inventory check, create variable that stores item_id -1 as index of res
 // then compare res[i].stock (may have to convert to number) to user request
