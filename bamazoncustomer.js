@@ -41,11 +41,12 @@ function displayItems() {
                     { item_id: userSelection },
                     function(err, res) {
                         if (err) throw err;
+                        var inStock = res[0].stock - reqAmount;
+                        console.log('we have ' + inStock + ' in stock');
                         // console.log("Great choice, the " + answer.productChoice);
                         console.log('\x1b[36m%s\x1b[0m', "The " + res[0].item + ", great choice! \nOne moment while I check to see if we have " + reqAmount + " available...");
                         if (res[0].stock >= reqAmount) {
-                            console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed.")
-                            // processOrder()
+                            processOrder(userSelection, inStock); 
                         } else {
                             console.log('\x1b[35m%s\x1b[0m', "So sorry; we're not able to process your order.")
                         }
@@ -54,11 +55,19 @@ function displayItems() {
         },
       )}
 
-function processOrder() {
-
+function processOrder(selection, amount) {
+    console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed.")
+    connection.query(
+        "UPDATE products SET ? WHERE ?",
+        {stock: amount},
+        {item_id: selection}
+    ), function(err, res) {
+        if (err) throw err;
+        console.log("\n");
+        for (var i=0; i<res.length; i++) {
+          console.log(res[i].item_id + " | " + res[i].item + " | " + res[i].price);      
+        };
+}
 }
 
-// for inventory check, create variable that stores item_id -1 as index of res
-// then compare res[i].stock (may have to convert to number) to user request
 displayItems();
-// transaction();
