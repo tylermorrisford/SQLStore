@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 });
 
 function displayItems() {
-    console.log('Welcome to Bamazon, home of the best deals in the known universe!')
+    console.log('\x1b[33m%s\x1b[0m' ,'Welcome to Bamazon, home of the best deals in the known universe!');
     var query = connection.query(
         "SELECT * FROM products",
         function(err, res) {
@@ -49,7 +49,6 @@ function displayItems() {
                         } else {
                             console.log('\x1b[35m%s\x1b[0m', "So sorry; we're not able to process your order.")
                         }
-                        // if item is in stock, run processOrder(); else log "sorry"
                     },
               )})
         },
