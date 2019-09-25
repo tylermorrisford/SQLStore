@@ -41,17 +41,20 @@ function displayItems() {
                 var inStock = res[userSelection].stock - reqAmount;
                 var orderTotal = res[userSelection].price * reqAmount;
                 console.log('\x1b[36m%s\x1b[0m', "The " + res[userSelection].item + ", great choice! \nOne moment while I check to see if we have " + reqAmount + " available...");
-                if (res[0].stock >= reqAmount) {
+                if (res[userSelection].stock >= reqAmount) {
                     console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed. Your total is $" + orderTotal);
                     console.log(inStock);
                     console.log(userSelection);
                     var query = connection.query(
-                        "UPDATE products SET stock = " + inStock + " WHERE item_id = " + userSelection,
+                        "UPDATE products SET stock = " + inStock + " WHERE item_id = " + "'" + answer.productChoice + "'",
+                        // the above works, the below query with placeholders does not
+                        // "UPDATE products SET ? WHERE ?",
                     // {stock: inStock},
-                    // {item_id: userSelection},
+                    // {item_id: answer.productChoice},
                     function(err, res) {
-                        console.log('update query starting');
+                        console.log('update query starting...');
                     if (err) throw err;
+                    console.log(res);
                     console.log("\n");
                     for (var i=0; i<res.length; i++) {
                       console.log(res[i].item_id + " | " + res[i].item + " | " + res[i].price);      
@@ -61,9 +64,11 @@ function displayItems() {
                     else {
                         console.log('\x1b[35m%s\x1b[0m', "So sorry; we're not able to process your order.")
                     }
-                })
+                },
+                )
             },
-          )}
+          ) 
+        }
                 
                 
                 
