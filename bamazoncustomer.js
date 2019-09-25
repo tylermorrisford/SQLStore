@@ -43,10 +43,12 @@ function displayItems() {
                 console.log('\x1b[36m%s\x1b[0m', "The " + res[userSelection].item + ", great choice! \nOne moment while I check to see if we have " + reqAmount + " available...");
                 if (res[0].stock >= reqAmount) {
                     console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed. Your total is $" + orderTotal);
+                    console.log(inStock);
+                    console.log(userSelection);
                     var query = connection.query(
-                        "UPDATE products SET ? WHERE ?",
-                    {stock: inStock},
-                    {item_id: userSelection},
+                        "UPDATE products SET stock = " + inStock + " WHERE item_id = " + userSelection,
+                    // {stock: inStock},
+                    // {item_id: userSelection},
                     function(err, res) {
                         console.log('update query starting');
                     if (err) throw err;
@@ -55,7 +57,8 @@ function displayItems() {
                       console.log(res[i].item_id + " | " + res[i].item + " | " + res[i].price);      
                     };
                 }
-                    )} else {
+                    )} 
+                    else {
                         console.log('\x1b[35m%s\x1b[0m', "So sorry; we're not able to process your order.")
                     }
                 })
