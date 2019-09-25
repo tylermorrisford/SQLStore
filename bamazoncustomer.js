@@ -10,14 +10,11 @@ var connection = mysql.createConnection({
     database: "bamazon"
 });
 
-connection.on('error', function(err) {
-    console.log("[mysql error]",err);
-  });
+
 
 function displayItems() {
     console.log('\x1b[33m%s\x1b[0m' ,'Welcome to Bamazon, home of the best deals in the known universe!');
-    // var query = 
-    connection.query(
+    var query = connection.query(
         "SELECT * FROM products",
         function(err, res) {
             if (err) throw err;
@@ -42,15 +39,16 @@ function displayItems() {
                 var userSelection = (answer.productChoice - 1);
                 var reqAmount = answer.quantity;
                 var inStock = res[userSelection].stock - reqAmount;
+                var orderTotal = res[userSelection].price * reqAmount;
                 console.log('\x1b[36m%s\x1b[0m', "The " + res[userSelection].item + ", great choice! \nOne moment while I check to see if we have " + reqAmount + " available...");
                 if (res[0].stock >= reqAmount) {
-                    console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed.");
+                    console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed. Your total is $" + orderTotal);
                     var query = connection.query(
                         "UPDATE products SET ? WHERE ?",
                     {stock: inStock},
                     {item_id: userSelection},
                     function(err, res) {
-                        console.log('query starting');
+                        console.log('update query starting');
                     if (err) throw err;
                     console.log("\n");
                     for (var i=0; i<res.length; i++) {
