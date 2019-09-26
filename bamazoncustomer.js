@@ -18,11 +18,12 @@ function displayItems() {
         "SELECT * FROM products",
         function(err, res) {
             if (err) throw err;
-            console.log("\n  ID    PRODUCT       PRICE    STOCK");
-            for (var i=0; i<res.length; i++) {
-              console.log("  " + res[i].item_id + "   | " + res[i].item + "       | " + res[i].price + " | " + res[i].stock);      
-            };
-            console.log("\n");
+            console.table(res);
+            // console.log("\n  ID    PRODUCT       PRICE    STOCK");
+            // for (var i=0; i<res.length; i++) {
+            //   console.log("  " + res[i].item_id + "   | " + res[i].item + "       | " + res[i].price + " | " + res[i].stock);      
+            // };
+            // console.log("\n");
             inquire.prompt([
                 {
                     type: 'input',
