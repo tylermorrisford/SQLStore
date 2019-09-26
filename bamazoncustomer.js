@@ -19,11 +19,7 @@ function displayItems() {
         function(err, res) {
             if (err) throw err;
             console.table(res);
-            // console.log("\n  ID    PRODUCT       PRICE    STOCK");
-            // for (var i=0; i<res.length; i++) {
-            //   console.log("  " + res[i].item_id + "   | " + res[i].item + "       | " + res[i].price + " | " + res[i].stock);      
-            // };
-            // console.log("\n");
+            // search for console.table minus certain columns
             inquire.prompt([
                 {
                     type: 'input',
