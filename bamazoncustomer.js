@@ -20,14 +20,14 @@ function displayItems() {
         })
     }
 
-    displayItems();
+    transaction();
 
-                    function inquire() {
-                        inquire.prompt([
-                        {
-                            type: 'input',
-                            name: 'productChoice',
-                            message: "Please enter the id # of the item you would like to purchase:",
+                    function transaction() {
+                    inquire.prompt([
+                    {
+                        type: 'number',
+                        name: 'productChoice',
+                        message: "Please enter the id # of the item you would like to purchase:",
                     },
                     {
                         type: 'number',
@@ -36,30 +36,43 @@ function displayItems() {
                     }
                       ])
                       .then(answer => {
-                        var userSelection = (answer.productChoice - 1);
-                        var reqAmount = answer.quantity;
-                        var inStock = res[userSelection].stock - reqAmount;
-                        var orderTotal = res[userSelection].price * reqAmount;
-                        console.log('\x1b[36m%s\x1b[0m', "The " + res[userSelection].item + ", great choice! \nOne moment while I check to see if we have " + reqAmount + " available...");
-                        if (res[userSelection].stock >= reqAmount) {
-                            console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed. Your total is $" + orderTotal);
-                            console.log(inStock);
-                            console.log(userSelection);
-                            var query = connection.query(
-                                "UPDATE products SET stock = " + inStock + " WHERE item_id = " + "'" + answer.productChoice + "'",
-                                // the above works, the below query with placeholders does not
-                                // "UPDATE products SET ? WHERE ?",
-                            // {stock: inStock},
-                            // {item_id: answer.productChoice},
-                            function(err, res) {
-                                console.log('update query starting...');
+                        // var amount = 0;
+                        amount = answer.quantity;
+                        var stockQuery = "SELECT * FROM products WHERE ?";
+                        connection.query(stockQuery, {item_id: answer.productChoice}, function(err, res) {
                             if (err) throw err;
-                            displayItems();
-                            })
-                        }
+                        var inStock = res[0].stock - amount;
+                        var orderTotal = res[0].price * amount;
+                        console.log('\x1b[36m%s\x1b[0m', "The " + res[0].item + ", great choice! \nOne moment while I check to see if we have " + amount + " available...");
+                        updateStock(res, amount, answer, orderTotal, inStock);
+                    });                    
                     }
                       )};
 
+
+                      function updateStock(res, amount, answer, orderTotal, inStock) {
+                        if (res[0].stock >= amount) {
+                            console.log('order total = ' + orderTotal);
+                            console.log('amount in stock: ' + inStock);
+                            console.log('amount: ' + amount);
+                            console.log('res[0].stock: ' + res[0].stock);
+                            console.log('res[0].item: ' + res[0].item);
+                            console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed. Your total is $" + orderTotal);
+                            connection.query(
+                            "UPDATE products SET stock = " + inStock + " WHERE item_id = " + amount,
+                            // [{stock: inStock},
+                            // {item_id: answer.productChoice}],
+                            function(err, res) {
+                                console.log('update query starting...');
+                                
+                            if (err) throw err;
+                            displayItems();
+                            })
+                        } else {
+                            console.log('Sorry, we\'re unable to process your order.');
+                            connection.end();
+                        }
+                      }
 
 // function displayItems() {
 //     console.log('\x1b[33m%s\x1b[0m' ,'Welcome to Bamazon, home of the best deals in the known universe!');
