@@ -52,7 +52,7 @@ function transaction() {
                 if (err) throw err;
                 var inStock = res[0].stock - amount;
                 var orderTotal = res[0].price * amount;
-                console.log('\x1b[36m%s\x1b[0m', "The " + res[0].item + ", great choice! \nOne moment while I check to see if we have " + amount + " available...");
+                console.log('\x1b[36m%s\x1b[0m', "\nThe " + res[0].item + ", great choice! \nOne moment while I check to see if we have " + amount + " available...");
                 updateStock(res, amount, answer, orderTotal, inStock);
             });
         }
@@ -88,7 +88,7 @@ function shopOrQuit() {
         if (answer.shop) {
             transaction();
         } else {
-            console.log('\x1b[33m%s\x1b[0m' ,'\n Thanks for shopping with Bamazon, we\'ve got all your money now');
+            console.log('\x1b[31m%s\x1b[0m' ,'\n Thanks for shopping with Bamazon! We\'ve got all your money, and all your data kthxbai \n\r\n\r');
             connection.end();
         }
     })
