@@ -9,3 +9,54 @@ var connection = mysql.createConnection({
     password: process.env.MYSQL_PASS,
     database: "bamazon"
 });
+
+console.log('Welcome to the Bamazon Manager Dashboard.');
+
+// List a set of menu options: (inquire.prompt a list -- put this in a function to re-use)
+//  View Products for Sale 
+//  View Low Inventory
+//  Add to Inventory
+//  Add New Product
+
+function dashboard() {
+    inquire.prompt([
+        {
+            type: 'list',
+            name: 'choice',
+            message: 'What would you like to do?',
+            choices: ['View Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product']
+        }
+    ]).then(answer => {
+        switch (answer.choice) {
+            case 'View Products for Sale': 
+            
+            break;
+            
+            case 'View Low Inventory': 
+            
+            break;
+            
+            case 'Add to Inventory': 
+            
+            break;
+            
+            case 'Add New Product': 
+            
+            break;
+
+            default:
+
+            break;
+        }
+
+    })
+}    
+
+function displayItems() {
+    var query = connection.query(
+        "SELECT * FROM products",
+        function(err, res) {
+            if (err) throw err;
+            console.table(res);
+        })
+    }
