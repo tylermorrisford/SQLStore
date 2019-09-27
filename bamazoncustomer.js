@@ -54,12 +54,11 @@ function displayItems() {
                         if (res[0].stock >= amount) {
                             console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed. Your total is $" + orderTotal);
                             connection.query(
-                            "UPDATE products SET stock = " + inStock + " WHERE item_id = " + "'" + answer.productChoice + "'",
-                            // [{stock: inStock},
-                            // {item_id: answer.productChoice}],
+                            // "UPDATE products SET stock = " + inStock + " WHERE item_id = " + "'" + answer.productChoice + "'",
+                            "UPDATE products SET ? WHERE ?",
+                            [{stock: inStock},
+                            {item_id: answer.productChoice}],
                             function(err, res) {
-                                console.log('update query starting...');
-                                
                             if (err) throw err;
                             displayItems();
                             })
