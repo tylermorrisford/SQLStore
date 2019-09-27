@@ -10,10 +10,10 @@ var connection = mysql.createConnection({
     database: "bamazon"
 });
 
-console.log('\x1b[33m%s\x1b[0m' ,'\n Welcome to Bamazon, home of the best deals in the known universe!');
-displayItems();
+openStore();
 
-function displayItems() {
+function openStore() {
+    console.log('\x1b[33m%s\x1b[0m' ,'\n Welcome to Bamazon, home of the best deals in the known universe!');
     var query = connection.query(
         "SELECT * FROM products",
         function(err, res) {
@@ -23,6 +23,14 @@ function displayItems() {
         })
     }
 
+    function displayItems() {
+        var query = connection.query(
+            "SELECT * FROM products",
+            function(err, res) {
+                if (err) throw err;
+                console.table(res);
+            })
+        }    
 
 function transaction() {
     inquire.prompt([
