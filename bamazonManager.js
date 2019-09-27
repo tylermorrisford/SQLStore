@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
     database: "bamazon"
 });
 
-console.log('_____Welcome to the Bamazon Manager Dashboard_____');
+console.log('\n\r_____Welcome to the Bamazon Manager Dashboard_____');
 dashboard();
 // List a set of menu options: (inquire.prompt a list -- put this in a function to re-use)
 //  View Products for Sale 
@@ -24,7 +24,7 @@ function dashboard() {
             type: 'list',
             name: 'choice',
             message: 'Dashboard: What would you like to do?',
-            choices: ['View Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product']
+            choices: ['View Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product', 'Exit']
         }
     ]).then(answer => {
         switch (answer.choice) {
@@ -43,6 +43,11 @@ function dashboard() {
             case 'Add New Product': 
             
                 break;
+            
+            case 'Exit': 
+                console.log('\nThanks for using the Bamazon Manager Dashboard\n');
+                connection.end();
+                break;
 
             default:
             displayItems();
@@ -52,23 +57,38 @@ function dashboard() {
 }    
 
 function displayItems() {
-    var query = connection.query(
+    connection.query(
         "SELECT * FROM products",
         function(err, res) {
             if (err) throw err;
             console.log('\n\rOur current inventory:');
             console.table(res);
+            console.log('\n');
             dashboard();
         })
     }
 
 function displayLowInventory() {
-    var query = connection.query(
+    connection.query(
         "SELECT * FROM products WHERE stock < 15",
         function(err, res) {
             if (err) throw err;
-            console.log('\n\rItems with inventory less than 15:');
+            console.log('\x1b[31m%s\x1b[0m' ,'\n\rItems with inventory less than 15:');
             console.table(res);
+            console.log('\n');
             dashboard();
         })
+    }
+
+    function addToInventory() {
+    // add inquire.prompt to ask for 
+    // connection.query(
+    //     "SELECT * FROM products SET stock = answer.stock WHERE item_id = answer.product",
+    //     function(err, res) {
+    //         if (err) throw err;
+    //         console.log('\x1b[32m%s\x1b[0m','\n\rInventory updated Successfully:');
+    //         console.table(res[answer.product]);
+    //         console.log('\n');
+    //         dashboard();
+    //     })
     }
