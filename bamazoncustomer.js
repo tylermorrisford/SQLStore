@@ -36,13 +36,13 @@ function displayItems() {
                     }
                       ])
                       .then(answer => {
-                        // var amount = 0;
-                        amount = answer.quantity;
+                        var amount = answer.quantity;
                         var stockQuery = "SELECT * FROM products WHERE ?";
                         connection.query(stockQuery, {item_id: answer.productChoice}, function(err, res) {
                             if (err) throw err;
                         var inStock = res[0].stock - amount;
                         var orderTotal = res[0].price * amount;
+                        console.log("amount = " + amount);
                         console.log('\x1b[36m%s\x1b[0m', "The " + res[0].item + ", great choice! \nOne moment while I check to see if we have " + amount + " available...");
                         updateStock(res, amount, answer, orderTotal, inStock);
                     });                    
@@ -52,14 +52,10 @@ function displayItems() {
 
                       function updateStock(res, amount, answer, orderTotal, inStock) {
                         if (res[0].stock >= amount) {
-                            console.log('order total = ' + orderTotal);
-                            console.log('amount in stock: ' + inStock);
-                            console.log('amount: ' + amount);
-                            console.log('res[0].stock: ' + res[0].stock);
-                            console.log('res[0].item: ' + res[0].item);
                             console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed. Your total is $" + orderTotal);
                             connection.query(
-                            "UPDATE products SET stock = " + inStock + " WHERE item_id = " + amount,
+                            // "UPDATE products SET stock = " + inStock + " WHERE item_id = " + amount,
+                            "UPDATE products SET stock = " + inStock + " WHERE item_id = " + "'" + answer.productChoice + "'",
                             // [{stock: inStock},
                             // {item_id: answer.productChoice}],
                             function(err, res) {
