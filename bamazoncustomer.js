@@ -14,7 +14,7 @@ openStore();
 
 function openStore() {
     console.log('\x1b[33m%s\x1b[0m' ,'\n Welcome to Bamazon, home of the best deals in the known universe!');
-    var query = connection.query(
+    connection.query(
         "SELECT * FROM products",
         function(err, res) {
             if (err) throw err;
@@ -41,8 +41,8 @@ function transaction() {
         },
         {
             type: 'number',
-            message: "How many would you like?",
-            name: "quantity"
+            name: "quantity",
+            message: "How many would you like?"
         }
     ])
         .then(answer => {
@@ -59,7 +59,6 @@ function transaction() {
         )
 };
 
-
 function updateStock(res, amount, answer, orderTotal, inStock) {
     if (res[0].stock >= amount) {
         console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed. Your total is $" + orderTotal);
@@ -69,11 +68,28 @@ function updateStock(res, amount, answer, orderTotal, inStock) {
             { item_id: answer.productChoice }],
             function (err, res) {
                 if (err) throw err;
-                displayItems();
+                // displayItems();   ---------- Add option for user to display items again
+                shopOrQuit()
             })
     } else {
         console.log('Sorry, we\'re unable to process your order.');
-        connection.end();
+        shopOrQuit()
     }
 }
 
+function shopOrQuit() {
+    inquire.prompt([
+        {
+            type: 'confirm',
+            name: "shop",
+            message: "Would you like to keep shopping?"
+        }
+    ]).then(answer => {
+        if (answer.shop) {
+            transaction();
+        } else {
+            console.log('\x1b[33m%s\x1b[0m' ,'\n Thanks for shopping with Bamazon, we\'ve got all your money now');
+            connection.end();
+        }
+    })
+}
