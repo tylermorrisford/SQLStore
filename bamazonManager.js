@@ -10,43 +10,42 @@ var connection = mysql.createConnection({
     database: "bamazon"
 });
 
-console.log('Welcome to the Bamazon Manager Dashboard.');
-
+console.log('_____Welcome to the Bamazon Manager Dashboard_____');
+dashboard();
 // List a set of menu options: (inquire.prompt a list -- put this in a function to re-use)
 //  View Products for Sale 
 //  View Low Inventory
 //  Add to Inventory
-//  Add New Product
+//  Add New Product SQL query: INSERT INTO products(item, department, price, stock) VALUES(answer.(choices))
 
 function dashboard() {
     inquire.prompt([
         {
             type: 'list',
             name: 'choice',
-            message: 'What would you like to do?',
+            message: 'Dashboard: What would you like to do?',
             choices: ['View Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product']
         }
     ]).then(answer => {
         switch (answer.choice) {
             case 'View Products for Sale': 
-            
-            break;
+            displayItems();
+                break;
             
             case 'View Low Inventory': 
-            
-            break;
+            displayLowInventory();
+                break;
             
             case 'Add to Inventory': 
             
-            break;
+                break;
             
             case 'Add New Product': 
             
-            break;
+                break;
 
             default:
-
-            break;
+            displayItems();
         }
 
     })
@@ -57,6 +56,19 @@ function displayItems() {
         "SELECT * FROM products",
         function(err, res) {
             if (err) throw err;
+            console.log('\n\rOur current inventory:');
             console.table(res);
+            dashboard();
+        })
+    }
+
+function displayLowInventory() {
+    var query = connection.query(
+        "SELECT * FROM products WHERE stock < 15",
+        function(err, res) {
+            if (err) throw err;
+            console.log('\n\rItems with inventory less than 15:');
+            console.table(res);
+            dashboard();
         })
     }
