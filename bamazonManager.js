@@ -81,7 +81,6 @@ function displayLowInventory() {
     }
 
     function addToInventory() {
-    // add inquire.prompt to ask for 
         inquire.prompt([
             {
                 type: 'list',
@@ -102,20 +101,10 @@ function displayLowInventory() {
                 function(err, res) {
                     if (err) throw err;
                     var newStock = res[0].stock + answer.stock;
-                    console.log(newStock);
                     stockUpdate(answer.product, newStock);
                 }
             )
         })
-    // connection.query(
-    //     "SELECT * FROM products SET stock = answer.stock WHERE item_id = answer.product",
-    //     function(err, res) {
-    //         if (err) throw err;
-    //         console.log('\x1b[32m%s\x1b[0m','\n\rInventory updated Successfully:');
-    //         console.table(res[answer.product]);
-    //         console.log('\n');
-    //         dashboard();
-    //     })
     }
 
     function stockUpdate(item, stockNum) {
@@ -125,7 +114,7 @@ function displayLowInventory() {
             {item: item}],
             function(err, res) {
                 if (err) throw err;
-                console.log('\x1b[32m%s\x1b[0m','\n\rInventory updated Successfully:');
+                console.log('\x1b[32m%s\x1b[0m','\n\rInventory updated Successfully.\n');
                 dashboard();
             })
     }
