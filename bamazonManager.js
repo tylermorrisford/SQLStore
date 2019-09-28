@@ -82,6 +82,30 @@ function displayLowInventory() {
 
     function addToInventory() {
     // add inquire.prompt to ask for 
+        inquire.prompt([
+            {
+                type: 'list',
+                name: 'product',
+                message: 'Which product would you like to add stock to?',
+                choices: ['t-shirt', 'jeans', 'jacket', 'running shoes', 'hiking shoes', 'boots', 'toothbrush', 'deodorant', 'shampoo', 'conditioner']
+            },
+            {
+                type: 'number',
+                name: 'stock',
+                message: 'Enter the number of stock you would like to add'
+            }
+        ]).then(answer => {
+            // get current stock, add answer.number to it, set stock to that number
+            connection.query(
+                "SELECT ? FROM products",
+                {item: answer.product},
+                function(err, res) {
+                    if (err) throw err;
+                    var newStock = res[0].stock + answer.stock;
+                    stockUpdate(answer.product, newStock);
+                }
+            )
+        })
     // connection.query(
     //     "SELECT * FROM products SET stock = answer.stock WHERE item_id = answer.product",
     //     function(err, res) {
@@ -91,4 +115,18 @@ function displayLowInventory() {
     //         console.log('\n');
     //         dashboard();
     //     })
+    }
+
+    function stockUpdate(item, stockNum) {
+        connection.query(
+            "SELECT * FROM products SET ? WHERE ?",
+            [{stock: stockNum},
+            {item_id: item}],
+            function(err, res) {
+                if (err) throw err;
+                console.log('\x1b[32m%s\x1b[0m','\n\rInventory updated Successfully:');
+                console.table(res[answer.product]);
+                console.log('\n');
+                dashboard();
+            })
     }
