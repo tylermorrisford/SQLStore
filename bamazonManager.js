@@ -37,7 +37,7 @@ function dashboard() {
                 break;
             
             case 'Add to Inventory': 
-            
+            addToInventory();
                 break;
             
             case 'Add New Product': 
@@ -97,11 +97,12 @@ function displayLowInventory() {
         ]).then(answer => {
             // get current stock, add answer.number to it, set stock to that number
             connection.query(
-                "SELECT ? FROM products",
+                "SELECT * FROM products WHERE ?",
                 {item: answer.product},
                 function(err, res) {
                     if (err) throw err;
                     var newStock = res[0].stock + answer.stock;
+                    console.log(newStock);
                     stockUpdate(answer.product, newStock);
                 }
             )
@@ -119,14 +120,12 @@ function displayLowInventory() {
 
     function stockUpdate(item, stockNum) {
         connection.query(
-            "SELECT * FROM products SET ? WHERE ?",
+            "UPDATE products SET ? WHERE ?",
             [{stock: stockNum},
-            {item_id: item}],
+            {item: item}],
             function(err, res) {
                 if (err) throw err;
                 console.log('\x1b[32m%s\x1b[0m','\n\rInventory updated Successfully:');
-                console.table(res[answer.product]);
-                console.log('\n');
                 dashboard();
             })
     }
