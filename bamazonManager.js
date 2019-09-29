@@ -41,11 +41,11 @@ function dashboard() {
                 break;
             
             case 'Add New Product': 
-            
+            addNewItem();
                 break;
             
             case 'Exit': 
-                console.log('\x1b[36m%s\x1b[0m','\nThanks for using the Bamazon Manager Dashboard\n');
+                console.log('\x1b[36m%s\x1b[0m','\nThanks for using the Bamazon Manager Dashboard.\n');
                 connection.end();
                 break;
 
@@ -114,7 +114,47 @@ function displayLowInventory() {
             {item: item}],
             function(err, res) {
                 if (err) throw err;
-                console.log('\x1b[32m%s\x1b[0m','\n\rInventory updated Successfully.\n');
+                console.log('\x1b[32m%s\x1b[0m','\n\rInventory updated successfully.\n');
                 dashboard();
             })
     }
+
+    //  Add New Product SQL query: INSERT INTO products(item, department, price, stock) VALUES(answer.(choices))
+
+function addNewItem() {
+    inquire.prompt([
+        {   
+            type: 'input',
+            name: 'item',
+            message: 'Enter the name of the new item:'
+        },
+        {   
+            type: 'input',
+            name: 'dept',
+            message: 'Enter the department of the new item:'
+        },
+        {   
+            type: 'input',
+            name: 'price',
+            message: 'Enter the price of the new item:'
+        },
+        {   
+            type: 'number',
+            name: 'stock',
+            message: 'Enter the total stock of the new item:'
+        },
+    ]).then(answer =>{
+        var insertProduct = [
+            [answer.item, answer.dept, answer.price, answer.stock]
+        ];
+        var insertQuery = "INSERT INTO products (item, department, price, stock) VALUES ?";
+        connection.query(insertQuery, [insertProduct],
+            function(err, res) {
+                if (err) throw err;
+                console.log('\x1b[32m%s\x1b[0m','\n\rProduct added successfully.\n');
+                dashboard();
+            }
+        )
+
+    })
+}    
