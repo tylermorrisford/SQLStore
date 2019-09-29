@@ -91,7 +91,7 @@ function shopOrQuit() {
             displayItems();
             setTimeout(transaction, 300);
         } else {
-            console.log('\x1b[31m%s\x1b[0m', '\n Thanks for shopping with Bamazon! We\'ve got all your money, and all your data kthxbai... \n\r\n\r');
+            console.log('\x1b[31m%s\x1b[0m', '\n Thanks for shopping with Bamazon! We\'ve got all your money, and all your data okayyy byeeeeeeeeeee... \n\r\n\r');
             connection.end();
         }
     })
