@@ -25,130 +25,129 @@ function dashboard() {
         }
     ]).then(answer => {
         switch (answer.choice) {
-            case 'View Products for Sale': 
-            displayItems();
+            case 'View Products for Sale':
+                displayItems();
                 break;
-            
-            case 'View Low Inventory': 
-            displayLowInventory();
+
+            case 'View Low Inventory':
+                displayLowInventory();
                 break;
-            
-            case 'Add to Inventory': 
-            addToInventory();
+
+            case 'Add to Inventory':
+                addToInventory();
                 break;
-            
-            case 'Add New Product': 
-            addNewItem();
+
+            case 'Add New Product':
+                addNewItem();
                 break;
-            
-            case 'Exit': 
-                console.log('\x1b[36m%s\x1b[0m','\nThanks for using the Bamazon Manager Dashboard.\n');
+
+            case 'Exit':
+                console.log('\x1b[36m%s\x1b[0m', '\nThanks for using the Bamazon Manager Dashboard.\n');
                 connection.end();
                 break;
 
             default:
-            displayItems();
+                displayItems();
         }
 
     })
-}    
+}
 
 function displayItems() {
     connection.query(
         "SELECT * FROM products",
-        function(err, res) {
+        function (err, res) {
             if (err) throw err;
             console.log('\n\rOur current inventory:');
             console.table(res);
             console.log('\n');
             dashboard();
         })
-    }
+}
 
 function displayLowInventory() {
     connection.query(
         "SELECT * FROM products WHERE stock < 15",
-        function(err, res) {
+        function (err, res) {
             if (err) throw err;
-            console.log('\x1b[31m%s\x1b[0m' ,'\n\rItems with inventory less than 15:');
+            console.log('\x1b[31m%s\x1b[0m', '\n\rItems with inventory less than 15:');
             console.table(res);
             console.log('\n');
             dashboard();
         })
-    }
+}
 
-    function addToInventory() {
-        inquire.prompt([
-            {
-                type: 'list',
-                name: 'product',
-                message: 'Which product would you like to add stock to?',
-                choices: ['t-shirt', 'jeans', 'jacket', 'running shoes', 'hiking shoes', 'boots', 'toothbrush', 'deodorant', 'shampoo', 'conditioner']
-            },
-            {
-                type: 'number',
-                name: 'stock',
-                message: 'Enter the number of stock you would like to add'
-            }
-        ]).then(answer => {
-            // get current stock, add answer.number to it, set stock to that number
-            connection.query(
-                "SELECT * FROM products WHERE ?",
-                {item: answer.product},
-                function(err, res) {
-                    if (err) throw err;
-                    var newStock = res[0].stock + answer.stock;
-                    stockUpdate(answer.product, newStock);
-                }
-            )
-        })
-    }
-
-    function stockUpdate(item, stockNum) {
+function addToInventory() {
+    inquire.prompt([
+        {
+            type: 'list',
+            name: 'product',
+            message: 'Which product would you like to add stock to?',
+            choices: ['t-shirt', 'jeans', 'jacket', 'running shoes', 'hiking shoes', 'boots', 'toothbrush', 'deodorant', 'shampoo', 'conditioner']
+        },
+        {
+            type: 'number',
+            name: 'stock',
+            message: 'Enter the number of stock you would like to add'
+        }
+    ]).then(answer => {
+        // get current stock, add answer.number to it, set stock to that number
         connection.query(
-            "UPDATE products SET ? WHERE ?",
-            [{stock: stockNum},
-            {item: item}],
-            function(err, res) {
+            "SELECT * FROM products WHERE ?",
+            { item: answer.product },
+            function (err, res) {
                 if (err) throw err;
-                console.log('\x1b[32m%s\x1b[0m','\n\rInventory updated successfully.\n');
-                dashboard();
-            })
-    }
+                var newStock = res[0].stock + answer.stock;
+                stockUpdate(answer.product, newStock);
+            }
+        )
+    })
+}
 
-    //  Add New Product SQL query: INSERT INTO products(item, department, price, stock) VALUES(answer.(choices))
+function stockUpdate(item, stockNum) {
+    connection.query(
+        "UPDATE products SET ? WHERE ?",
+        [{ stock: stockNum },
+        { item: item }],
+        function (err, res) {
+            if (err) throw err;
+            console.log('\x1b[32m%s\x1b[0m', '\n\rInventory updated successfully.\n');
+            dashboard();
+        })
+}
+
 
 function addNewItem() {
     inquire.prompt([
-        {   
+        {
             type: 'input',
             name: 'item',
             message: 'Enter the name of the new item:'
         },
-        {   
+        {
             type: 'input',
             name: 'dept',
             message: 'Enter the department of the new item:'
         },
-        {   
+        {
             type: 'input',
             name: 'price',
             message: 'Enter the price of the new item:'
         },
-        {   
+        {
             type: 'number',
             name: 'stock',
             message: 'Enter the total stock of the new item:'
         },
-    ]).then(answer =>{
+    ]).then(answer => {
         var insertProduct = [
             [answer.item, answer.dept, answer.price, answer.stock]
         ];
         var insertQuery = "INSERT INTO products (item, department, price, stock) VALUES ?";
         connection.query(insertQuery, [insertProduct],
-            function(err, res) {
+            function (err, res) {
                 if (err) throw err;
-                console.log('\x1b[32m%s\x1b[0m','\n\rProduct added successfully.\n');
+                console.log('\x1b[32m%s\x1b[0m', '\n\rProduct added successfully.\n');
                 dashboard();
             }
         )
