@@ -61,7 +61,7 @@ function transaction() {
 
 function updateStock(res, amount, answer, orderTotal, inStock) {
     if (res[0].stock >= amount) {
-        console.log('\x1b[32m%s\x1b[0m', "Good news! Your order is being processed. Your total is $" + orderTotal);
+        console.log('\x1b[32m%s\x1b[0m', "\n\rGood news! Your order is being processed. Your total is $" + orderTotal + ". \n");
         connection.query(
             "UPDATE products SET ? WHERE ?",
             [{ stock: inStock },
@@ -86,9 +86,10 @@ function shopOrQuit() {
         }
     ]).then(answer => {
         if (answer.shop) {
-            transaction();
+            displayItems();
+           setTimeout(transaction, 300);
         } else {
-            console.log('\x1b[31m%s\x1b[0m' ,'\n Thanks for shopping with Bamazon! We\'ve got all your money, and all your data kthxbai \n\r\n\r');
+            console.log('\x1b[31m%s\x1b[0m' ,'\n Thanks for shopping with Bamazon! We\'ve got all your money, and all your data kthxbai... \n\r\n\r');
             connection.end();
         }
     })
