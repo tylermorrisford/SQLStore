@@ -1,4 +1,4 @@
-// Bamazon Manager
+// Bamazon Manager Dashboard
 require('dotenv').config();
 var mysql = require("mysql");
 var inquire = require("inquirer");
@@ -10,14 +10,11 @@ var connection = mysql.createConnection({
     database: "bamazon"
 });
 
+// function call --- load dashboard
 console.log('\x1b[36m%s\x1b[0m', '\n\r_____Welcome to the Bamazon Manager Dashboard_____\n');
 dashboard();
-// List a set of menu options: (inquire.prompt a list -- put this in a function to re-use)
-//  View Products for Sale 
-//  View Low Inventory
-//  Add to Inventory
-//  Add New Product SQL query: INSERT INTO products(item, department, price, stock) VALUES(answer.(choices))
 
+// functions --- dashboard, displayItems, displayLowInventory, addToInventory, stockUpdate, addNewItem
 function dashboard() {
     inquire.prompt([
         {

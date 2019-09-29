@@ -16,24 +16,24 @@ openStore();
 
 // functions --- openStore, displayItems, transaction, updateStock, shopOrQuit
 function openStore() {
-    console.log('\x1b[33m%s\x1b[0m' ,'\n Welcome to Bamazon, home of the best deals in the known universe! \n');
+    console.log('\x1b[33m%s\x1b[0m', '\n Welcome to Bamazon, home of the best deals in the known universe! \n');
     connection.query(
         "SELECT * FROM products",
-        function(err, res) {
+        function (err, res) {
             if (err) throw err;
             console.table(res);
             transaction();
         })
-    }
+}
 
-    function displayItems() {
-        var query = connection.query(
-            "SELECT * FROM products",
-            function(err, res) {
-                if (err) throw err;
-                console.table(res);
-            })
-        }    
+function displayItems() {
+    var query = connection.query(
+        "SELECT * FROM products",
+        function (err, res) {
+            if (err) throw err;
+            console.table(res);
+        })
+}
 
 function transaction() {
     inquire.prompt([
@@ -91,7 +91,7 @@ function shopOrQuit() {
             displayItems();
             setTimeout(transaction, 300);
         } else {
-            console.log('\x1b[31m%s\x1b[0m' ,'\n Thanks for shopping with Bamazon! We\'ve got all your money, and all your data kthxbai... \n\r\n\r');
+            console.log('\x1b[31m%s\x1b[0m', '\n Thanks for shopping with Bamazon! We\'ve got all your money, and all your data kthxbai... \n\r\n\r');
             connection.end();
         }
     })
