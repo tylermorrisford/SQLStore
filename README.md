@@ -11,6 +11,8 @@ This 'SQLStore' node app uses two files - bamazoncustomer.js, and bamazonManager
 
 Using bamazonManager.js, users have several reporting methods; view all items, view a list of items that have low stock, add stock to a given item, and add a new item to the inventory(and soon, users will be able to remove items from inventory). Each reporting method uses a database query in order to update or return results. 
 
+[Watch a screencast demo](https://drive.google.com/file/d/1gmcD1qJjFxAbsmeCyYdTYqb2YrUgYHI5/view)
+
 ## Instructions
 ### Setup
 FIRST! You'll need to fork this repo and clone it to your computer; load that entire folder into VS Code (or your preferred editor), and from that directory, you'll need to run 
