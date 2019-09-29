@@ -1,7 +1,7 @@
 require('dotenv').config();
 var mysql = require("mysql");
 var inquire = require("inquirer");
-// 
+// connect to mysql database using dotenv
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -10,8 +10,11 @@ var connection = mysql.createConnection({
     database: "bamazon"
 });
 
+// function call
 openStore();
 
+
+// functions --- openStore, displayItems, transaction, updateStock, shopOrQuit
 function openStore() {
     console.log('\x1b[33m%s\x1b[0m' ,'\n Welcome to Bamazon, home of the best deals in the known universe! \n');
     connection.query(
@@ -68,7 +71,6 @@ function updateStock(res, amount, answer, orderTotal, inStock) {
             { item_id: answer.productChoice }],
             function (err, res) {
                 if (err) throw err;
-                // displayItems();   ---------- Add option for user to display items again
                 shopOrQuit()
             })
     } else {
@@ -87,7 +89,7 @@ function shopOrQuit() {
     ]).then(answer => {
         if (answer.shop) {
             displayItems();
-           setTimeout(transaction, 300);
+            setTimeout(transaction, 300);
         } else {
             console.log('\x1b[31m%s\x1b[0m' ,'\n Thanks for shopping with Bamazon! We\'ve got all your money, and all your data kthxbai... \n\r\n\r');
             connection.end();
