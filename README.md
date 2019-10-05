@@ -11,7 +11,7 @@ This 'SQLStore' node app uses two files - bamazoncustomer.js, and bamazonManager
 
 Using bamazonManager.js, users have several reporting methods; view all items, view a list of items that have low stock, add stock to a given item, and add a new item to the inventory(and soon, users will be able to remove items from inventory). Each reporting method uses a database query in order to update or return results. 
 
-[Watch a screencast demo](https://drive.google.com/file/d/1gmcD1qJjFxAbsmeCyYdTYqb2YrUgYHI5/view)
+[Watch a screencast demo>](https://drive.google.com/file/d/1gmcD1qJjFxAbsmeCyYdTYqb2YrUgYHI5/view)
 
 ## Instructions
 ### Setup
@@ -19,7 +19,7 @@ FIRST! You'll need to fork this repo and clone it to your computer; load that en
 ```sh
 npm install
 ``` 
-to install the packages and dependencies(in this case, mysql, inquirer and dotenv), and you'll need to create a database(in this case, call it 'bamazon') with a table(call it 'products') using an SQL client like MYSQL Workbench. Get MYSQL Workbench [here.](https://www.mysql.com/products/workbench/) I'm betting you noticed the mysql logo and thought, "cool, but what do dolphins have to do with mysql?". You are not alone my friend. [I googled it.](https://www.quora.com/Why-does-MySQL-use-a-dolphin-as-its-logo)
+to install the packages and dependencies(in this case, mysql, inquirer and dotenv), and you'll need to create a database(in this case, call it 'bamazon') with a table(call it 'products') using an SQL client like MYSQL Workbench. Get MYSQL Workbench [here.](https://www.mysql.com/products/workbench/) I'm betting you noticed the mysql logo and thought, "cool, but what do dolphins have to do with mysql?". My friend, you are not alone. [I googled it.](https://www.quora.com/Why-does-MySQL-use-a-dolphin-as-its-logo)
 
 This app uses the dotenv package to hide the mysql username and password, which you'll need if you want to fork this project and add to it/change it and then store your work in a remote repo. Check [here](https://www.npmjs.com/package/dotenv) for instructions on how to set it up. An incredibly useful package. 
 
